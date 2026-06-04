@@ -40,6 +40,18 @@ Open Co-Flow Desktop.command
 This command opens Terminal, installs dependencies if needed, seeds the local database, and starts Electron desktop mode.
 
 ---
+### macOS Keychain permission prompt
+
+When running the Electron app on macOS for the first time, the system may show a Keychain prompt saying that Electron wants to access information stored in **Electron Safe Storage**.
+
+This is a normal macOS security prompt triggered by Electron. It is not an error in the project.
+
+If this prompt appears:
+
+1. Enter your Mac login password.
+2. Click **Allow** or **Always Allow**.
+
+Choosing **Always Allow** prevents the same prompt from appearing repeatedly on future launches.
 
 ## Important: do not use the browser as the main presentation mode
 
