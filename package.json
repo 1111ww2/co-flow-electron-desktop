@@ -1,0 +1,22 @@
+{
+  "name": "co-flow-spatial-recovery-system",
+  "version": "3.0.0",
+  "description": "Co-Flow Electron desktop prototype with local server, SQLite state, main dashboard window, and always-on-top floating window.",
+  "type": "module",
+  "scripts": {
+    "seed": "node --no-warnings src/seed.js",
+    "start": "electron electron/main.cjs",
+    "desktop": "electron electron/main.cjs",
+    "electron": "electron electron/main.cjs",
+    "preview": "node --no-warnings src/server.js",
+    "server": "node --no-warnings src/server.js"
+  },
+  "engines": {
+    "node": ">=22.5.0"
+  },
+  "dependencies": {},
+  "main": "electron/main.cjs",
+  "devDependencies": {
+    "electron": "^42.3.0"
+  }
+}

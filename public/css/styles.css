@@ -1,0 +1,1194 @@
+/* Co-Flow visual system for the Electron desktop prototype.
+   The same stylesheet supports the main dashboard window and the compact floating window.
+   Styles are local to the app and are loaded through the Electron-started local server. */
+
+/* Design tokens: colour, radius, shadow, and shared surface variables. */
+:root {
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  --bg: #f6f7fb;
+  --ink: #111827;
+  --muted: #667085;
+  --line: rgba(17, 24, 39, 0.1);
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  --glass: rgba(255, 255, 255, 0.78);
+  --glass-strong: rgba(255, 255, 255, 0.92);
+  --shadow: 0 28px 90px rgba(15, 23, 42, 0.13);
+  --soft-shadow: 0 16px 45px rgba(15, 23, 42, 0.08);
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  --radius: 28px;
+  --green: #7bd99e;
+  --blue: #85bfff;
+  --amber: #ffd38a;
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  --pink: #ffd8e7;
+  --dark: #111827;
+}
+
+/* Global layout reset and page background for the desktop dashboard renderer. */
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 8% 14%, rgba(123, 217, 158, 0.35), transparent 26%),
+    radial-gradient(circle at 92% 0%, rgba(133, 191, 255, 0.35), transparent 28%),
+    /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+    radial-gradient(circle at 70% 95%, rgba(255, 211, 138, 0.22), transparent 28%),
+    linear-gradient(180deg, #fbfcff 0%, var(--bg) 100%);
+  overflow-x: hidden;
+}
+
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.ambient { position: fixed; border-radius: 999px; filter: blur(28px); opacity: 0.42; pointer-events: none; z-index: 0; }
+.ambient-a { width: 320px; height: 320px; background: #bdf7d2; left: -120px; top: 24%; }
+.ambient-b { width: 420px; height: 420px; background: #c6ddff; right: -160px; bottom: 8%; }
+
+/* Main two-column Electron dashboard layout: sidebar plus content. */
+.shell { position: relative; z-index: 1; display: grid; grid-template-columns: 272px minmax(0, 1fr); gap: 24px; padding: 24px; }
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.glass { background: var(--glass); border: 1px solid rgba(255,255,255,0.74); box-shadow: var(--shadow); backdrop-filter: blur(28px); }
+/* Sidebar navigation and device summary cards. */
+.sidebar { position: sticky; top: 24px; height: calc(100vh - 48px); border-radius: var(--radius); padding: 22px; display: flex; flex-direction: column; }
+.brand { display: flex; align-items: center; gap: 14px; margin-bottom: 28px; }
+.brand-mark { width: 46px; height: 46px; border-radius: 16px; background:
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  radial-gradient(circle at 35% 28%, #ffffff 0 12%, transparent 13%),
+  linear-gradient(135deg, #111827, #2f6f58 55%, #85bfff);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.45), 0 12px 28px rgba(33, 66, 55, .22);
+}
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.brand strong { display: block; font-size: 19px; letter-spacing: -0.03em; }
+.brand span { color: var(--muted); font-size: 13px; }
+.nav { display: grid; gap: 8px; }
+.nav-link { text-decoration: none; color: #344054; padding: 13px 14px; border-radius: 16px; transition: 0.25s ease; font-weight: 700; }
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.nav-link:hover, .nav-link.active { background: #111827; color: white; transform: translateX(2px); }
+.device-card { margin-top: auto; display: flex; gap: 12px; padding: 16px; border-radius: 20px; background: rgba(223, 249, 234, 0.72); border: 1px solid rgba(117, 214, 156, 0.4); }
+.device-card p { margin: 4px 0 0; color: var(--muted); font-size: 13px; }
+.pulse { width: 12px; height: 12px; border-radius: 50%; background: #24c46a; margin-top: 6px; box-shadow: 0 0 0 8px rgba(36,196,106,.14); animation: pulse 1.8s infinite; }
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+@keyframes pulse { 50% { box-shadow: 0 0 0 14px rgba(36,196,106,0); } }
+
+.content { min-width: 0; }
+/* Large dashboard hero area showing the current Co-Flow state. */
+.hero { min-height: 260px; border-radius: 36px; padding: 38px; display: flex; justify-content: space-between; align-items: center; overflow: hidden; position: relative; }
+.hero::after { content:""; position: absolute; inset: auto -12% -42% 38%; height: 260px; background: linear-gradient(90deg, rgba(117,214,156,0.34), rgba(125,183,255,0.28)); border-radius: 999px; filter: blur(14px); }
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.eyebrow { margin: 0 0 8px; color: #2f6f58; font-weight: 850; letter-spacing: 0.08em; text-transform: uppercase; font-size: 12px; }
+h1, h2, h3, p { margin-top: 0; }
+h1 { max-width: 780px; font-size: clamp(44px, 6vw, 82px); line-height: 0.94; letter-spacing: -0.075em; margin-bottom: 18px; }
+h2 { font-size: clamp(28px, 3vw, 46px); letter-spacing: -0.055em; margin-bottom: 0; }
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+h3 { letter-spacing: -0.035em; }
+.hero-copy { color: var(--muted); max-width: 650px; font-size: 18px; line-height: 1.65; }
+.hero-orb { position: relative; z-index: 1; width: 180px; height: 180px; flex: 0 0 180px; border-radius: 50%; display: grid; place-items: center; text-align: center; background: radial-gradient(circle at 35% 25%, #fff, #bdf3d0 45%, #7db7ff); box-shadow: inset 0 0 30px rgba(255,255,255,.7), 0 34px 80px rgba(58,112,175,.28); }
+.hero-orb span { display: block; font-size: 56px; font-weight: 850; letter-spacing: -0.06em; }
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.hero-orb small { display: block; color: #344054; margin-top: -12px; }
+
+/* Section switching: only the active dashboard page is visible. */
+.page { display: none; padding: 24px 0 80px; }
+.page.active { display: block; animation: rise .45s ease both; }
+@keyframes rise { from { opacity: 0; transform: translateY(16px); } }
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.section-heading, .section-mini-heading { display: flex; align-items: end; justify-content: space-between; gap: 20px; margin: 30px 0 18px; }
+.section-mini-heading { margin: 0 0 18px; align-items: center; }
+.grid { display: grid; gap: 18px; }
+.cards-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.cards-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.two-col { grid-template-columns: minmax(0, 1.25fr) minmax(320px, .75fr); }
+.top-gap { margin-top: 18px; }
+/* Dashboard cards, task panels, and garden element cards share the same soft glass style. */
+.metric-card, .panel, /* Recovery task card visuals and completion controls. */
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.task-card, .element-card { border-radius: 28px; padding: 24px; }
+.metric-card strong { display: block; font-size: 46px; letter-spacing: -0.06em; margin: 8px 0 4px; }
+.metric-card p, .muted { color: var(--muted); line-height: 1.6; }
+.label { color: var(--muted); font-size: 13px; font-weight: 780; text-transform: uppercase; letter-spacing: .08em; }
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.button { border: 0; cursor: pointer; border-radius: 999px; padding: 12px 18px; font-weight: 850; transition: .25s ease; font: inherit; }
+.button:hover { transform: translateY(-2px); }
+.primary { background: #111827; color: white; }
+.secondary { background: #e8f3ec; color: #173b2d; }
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.ghost { background: rgba(255,255,255,.78); color: #111827; border: 1px solid var(--line); }
+.full { width: 100%; justify-content: center; }
+.button-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; }
+.compact .button { padding: 10px 14px; }
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.clean-list { padding-left: 20px; color: var(--muted); line-height: 1.9; }
+.recommend-box { margin-top: 18px; padding: 18px; border-radius: 22px; background: linear-gradient(135deg, rgba(223,249,234,.86), rgba(231,240,255,.82)); border: 1px solid rgba(255,255,255,.8); }
+.chip { border-radius: 999px; background: rgba(17,24,39,.08); padding: 7px 10px; font-size: 12px; font-weight: 760; color: #344054; }
+.card-meta { display: flex; gap: 8px; flex-wrap: wrap; margin: 14px 0 18px; }
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.points-pill { padding: 12px 18px; border-radius: 999px; background: #111827; color: white; font-weight: 850; }
+
+.dashboard-alert { position: relative; margin: 4px 0 20px; padding: 34px; border-radius: 34px; text-align: center; background: linear-gradient(135deg, rgba(255, 248, 227, .94), rgba(255, 229, 238, .9)); border-color: rgba(255, 255, 255, .86); }
+.dashboard-alert h3 { font-size: clamp(28px, 3.5vw, 52px); margin-bottom: 8px; }
+.dashboard-alert p:not(.eyebrow) { color: #59402a; font-size: 17px; max-width: 720px; margin-left: auto; margin-right: auto; }
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.dashboard-alert .button-row { justify-content: center; }
+.hidden { display: none !important; }
+
+.status-stack { display: grid; gap: 16px; }
+.status-stack > div { position: relative; padding-left: 28px; }
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.status-stack p { margin: 5px 0 0; }
+.status-dot { position: absolute; left: 0; top: 5px; width: 12px; height: 12px; border-radius: 50%; background: #cbd5e1; box-shadow: 0 0 0 7px rgba(148,163,184,.12); }
+.status-dot.on { background: #20c66b; box-shadow: 0 0 0 7px rgba(32,198,107,.14); }
+
+.task-card, .element-card { position: relative; overflow: hidden; min-height: 250px; }
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.task-card::before, .element-card::before { content:""; position: absolute; width: 180px; height: 180px; right: -58px; top: -58px; border-radius: 50%; background: rgba(117,214,156,.18); }
+.task-visual { position: relative; height: 86px; border-radius: 22px; display: flex; align-items: end; padding: 16px; margin-bottom: 18px; overflow: hidden; font-weight: 850; color: rgba(17,24,39,.68); background: linear-gradient(135deg, #eaf8ef, #eef5ff); }
+.task-visual::before { content:""; position: absolute; inset: 12px; border-radius: 18px; opacity: .72; }
+.task-visual.sunlight::before { background: radial-gradient(circle at 24% 28%, #fff7cb 0 12%, transparent 13%), linear-gradient(120deg, rgba(255,208,106,.75), transparent 56%); }
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.task-visual.walking::before { background: linear-gradient(135deg, transparent 40%, rgba(47,111,88,.32) 41% 46%, transparent 47%), radial-gradient(circle at 72% 36%, rgba(117,214,156,.7), transparent 20%); }
+.task-visual.wind::before { background: repeating-linear-gradient(165deg, rgba(125,183,255,.55) 0 3px, transparent 4px 16px); }
+.task-visual.water::before { background: radial-gradient(circle at 28% 55%, rgba(125,183,255,.55), transparent 22%), linear-gradient(150deg, rgba(107,164,245,.55), transparent 62%); }
+.task-visual.sound::before { background: repeating-radial-gradient(circle at 34% 55%, rgba(47,111,88,.33) 0 2px, transparent 3px 18px); }
+
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.team-meter { height: 16px; border-radius: 999px; background: rgba(17,24,39,.08); overflow: hidden; margin: 22px 0; }
+.team-meter div { height: 100%; width: 0; border-radius: 999px; background: linear-gradient(90deg, #75d69c, #7db7ff); transition: .35s ease; }
+.large-copy { font-size: 22px; line-height: 1.45; color: #344054; }
+
+.camera-preview-wrap { position: relative; height: 360px; border-radius: 28px; background: #111827; overflow: hidden; }
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.camera-preview-wrap video { width: 100%; height: 100%; object-fit: cover; filter: saturate(.75) contrast(1.04); }
+.scan-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 0%, rgba(117,214,156,.16) 50%, transparent 100%); mix-blend-mode: screen; animation: scan 2.2s linear infinite; }
+@keyframes scan { from { transform: translateY(-100%); } to { transform: translateY(100%); } }
+.camera-readout { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 16px; }
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.camera-readout div { border-radius: 22px; background: rgba(255,255,255,.72); padding: 16px; }
+.camera-readout strong { display: block; font-size: 24px; margin-top: 5px; }
+
+.upload-zone { display: grid; place-items: center; text-align: center; gap: 8px; min-height: 150px; border: 1.5px dashed rgba(47,111,88,.34); border-radius: 28px; background: rgba(255,255,255,.56); cursor: pointer; margin: 16px 0; }
+.upload-zone input { display: none; }
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.upload-zone span { font-size: 22px; font-weight: 850; }
+.upload-zone small { color: var(--muted); }
+
+/* Restorative Garden desk surface, store, and draggable natural elements. */
+.garden-top { align-items: stretch; }
+.garden-layout { display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(300px, .7fr); gap: 18px; }
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.desk-stage { border-radius: 36px; padding: 26px; min-height: 620px; }
+.desk-surface { position: relative; height: 560px; border-radius: 34px; overflow: hidden; background:
+  radial-gradient(circle at 28% 30%, rgba(255,255,255,.82), transparent 22%),
+  linear-gradient(145deg, #e9edf4, #f9fbff 55%, #dce7f2);
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  background-size: cover;
+  background-position: center;
+  border: 1px solid rgba(255,255,255,.9);
+  box-shadow: inset 0 0 50px rgba(255,255,255,.65);
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  transform: perspective(1200px) rotateX(4deg);
+}
+.desk-surface.has-photo { box-shadow: inset 0 0 70px rgba(255,255,255,.35), 0 30px 70px rgba(15,23,42,.12); }
+.desk-photo-placeholder { position: absolute; inset: 0; display: grid; place-items: center; color: rgba(17,24,39,.44); font-weight: 850; letter-spacing: -.03em; }
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.desk-screen { position: absolute; left: 30%; top: 12%; width: 40%; height: 25%; border-radius: 18px; background: linear-gradient(145deg, rgba(19,24,39,.94), rgba(74,94,117,.86)); box-shadow: 0 24px 50px rgba(15,23,42,.22); }
+.desk-keyboard { position: absolute; left: 35%; bottom: 12%; width: 30%; height: 10%; border-radius: 16px; background: rgba(255,255,255,.76); border: 1px solid rgba(15,23,42,.08); }
+.scan-line { position: absolute; left: 0; right: 0; top: 0; height: 2px; background: linear-gradient(90deg, transparent, rgba(117,214,156,.9), transparent); animation: scanLine 2s linear infinite; }
+.scan-line.subtle { opacity: .38; }
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+@keyframes scanLine { from { transform: translateY(0); } to { transform: translateY(560px); } }
+.desk-surface.projecting::after { content:""; position: absolute; inset: 0; background: radial-gradient(circle at 50% 55%, rgba(255,255,255,.55), transparent 38%), linear-gradient(120deg, rgba(117,214,156,.22), rgba(125,183,255,.26)); animation: projectFlash 2.4s ease both; pointer-events: none; }
+@keyframes projectFlash { 0% { opacity: 0; } 18% { opacity: 1; } 100% { opacity: 0; } }
+
+.filter-row { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; }
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.filter-chip { border: 1px solid var(--line); background: rgba(255,255,255,.72); color: #344054; border-radius: 999px; padding: 9px 13px; font-weight: 800; cursor: pointer; }
+.filter-chip.active { background: #111827; color: white; }
+
+.nature-visual { position: relative; height: 106px; border-radius: 24px; margin-bottom: 18px; overflow: hidden; background: linear-gradient(135deg, #eff8f1, #eef5ff); box-shadow: inset 0 0 0 1px rgba(255,255,255,.72); }
+.nature-visual span, .nature-visual i, .nature-visual b { position: absolute; display: block; }
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.nature-visual.sunbeam { background: linear-gradient(135deg, #fff5cc, #eaf7ff); }
+.nature-visual.sunbeam span { width: 150px; height: 150px; border-radius: 50%; background: radial-gradient(circle, #fff8c8, #ffc75f 52%, transparent 55%); left: -32px; top: -38px; }
+.nature-visual.sunset { background: linear-gradient(135deg, #ffe1b8, #ffd8e7 50%, #dceaff); }
+.nature-visual.sunset span { inset: 58px -20px auto -20px; height: 54px; border-radius: 50%; background: rgba(255,167,87,.56); }
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.nature-visual.window-light { background: linear-gradient(120deg, #f9fbff 0 42%, #fff2b7 43% 58%, #eef5ff 59%); }
+.nature-visual.river { background: linear-gradient(145deg, #eaf8ef, #dbeeff); }
+.nature-visual.river span { left: -20%; top: 42%; width: 140%; height: 28%; border-radius: 999px; background: linear-gradient(90deg, transparent, rgba(105,171,245,.8), transparent); transform: rotate(-10deg); }
+.nature-visual.ocean { background: linear-gradient(180deg, #d8ecff, #8bbff7); }
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.nature-visual.ocean span { left: -10%; right: -10%; bottom: 18%; height: 32%; background: repeating-radial-gradient(ellipse at center, rgba(255,255,255,.55) 0 6px, transparent 7px 18px); }
+.nature-visual.creek { background: linear-gradient(135deg, #e8f6e8, #e6f1ff); }
+.nature-visual.creek span { left: 20%; top: 0; width: 32%; height: 120%; border-radius: 999px; background: linear-gradient(180deg, rgba(91,169,232,.75), rgba(255,255,255,.4)); transform: rotate(18deg); }
+.nature-visual.moss { background: radial-gradient(circle at 25% 70%, #8fd694, transparent 30%), radial-gradient(circle at 70% 70%, #578f64, transparent 32%), #edf8ed; }
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.nature-visual.mini-tree { background: linear-gradient(180deg, #eef8f1, #e5f0ff); }
+.nature-visual.mini-tree span { width: 84px; height: 84px; border-radius: 50%; background: #74c98a; left: 50%; top: 10%; transform: translateX(-50%); }
+.nature-visual.mini-tree i { width: 12px; height: 42px; background: #9a6a45; left: 50%; bottom: 12%; transform: translateX(-50%); border-radius: 999px; }
+.nature-visual.grass { background: linear-gradient(180deg, #f2fbf4, #dff5e7); }
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.nature-visual.grass span { left: 0; right: 0; bottom: 0; height: 48%; background: repeating-linear-gradient(100deg, #60b874 0 6px, transparent 7px 15px); }
+.nature-visual.wind-lines { background: #eef7ff; }
+.nature-visual.wind-lines span { inset: 26px 18px; background: repeating-linear-gradient(165deg, rgba(79,139,205,.55) 0 3px, transparent 4px 18px); border-radius: 18px; }
+.nature-visual.fog { background: linear-gradient(135deg, #f4f7fb, #e6f4ff); }
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.nature-visual.fog span { left: -10%; right: -10%; top: 40%; height: 18px; border-radius: 999px; background: rgba(255,255,255,.78); box-shadow: 40px 22px 0 rgba(255,255,255,.56), 100px -18px 0 rgba(255,255,255,.45); }
+.nature-visual.sound-wave { background: linear-gradient(135deg, #eef8f1, #f7f1ff); }
+.nature-visual.sound-wave span { inset: 20px; background: repeating-radial-gradient(circle at 50% 50%, rgba(47,111,88,.34) 0 2px, transparent 3px 18px); border-radius: 22px; }
+.nature-visual.birdsong { background: linear-gradient(135deg, #f4fbff, #eff8ef); }
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.nature-visual.birdsong span { left: 20%; top: 32%; width: 60%; height: 36%; border-radius: 50%; border-top: 5px solid rgba(47,111,88,.45); border-bottom: 0; }
+
+.plant-dot { position: absolute; width: 104px; transform-origin: center; cursor: grab; filter: drop-shadow(0 18px 18px rgba(15,23,42,.22)); z-index: 4; }
+.plant-dot:active { cursor: grabbing; }
+.plant-dot .nature-visual { height: 78px; margin: 0; border-radius: 20px; box-shadow: 0 14px 24px rgba(15,23,42,.16); }
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.plant-dot small { display: block; margin-top: 6px; text-align: center; font-size: 10px; font-weight: 850; color: rgba(17,24,39,.72); background: rgba(255,255,255,.68); border-radius: 999px; padding: 4px 6px; }
+.owned-list { display: grid; gap: 10px; max-height: 360px; overflow: auto; padding-right: 4px; }
+.owned-item { display: grid; grid-template-columns: 76px 1fr; align-items: center; gap: 12px; padding: 10px; border-radius: 18px; background: rgba(255,255,255,.64); border: 1px solid rgba(255,255,255,.7); }
+.owned-item .nature-visual { height: 58px; margin: 0; border-radius: 16px; }
+
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.history-list { display: grid; gap: 10px; }
+.history-item { padding: 14px 16px; border-radius: 18px; background: rgba(255,255,255,.62); border: 1px solid rgba(255,255,255,.74); }
+.history-item p { margin: 4px 0 0; }
+.compact-history { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.small-note { font-size: 13px; margin-top: 14px; }
+
+.web-alert-window { position: fixed; right: 28px; bottom: 28px; width: 360px; z-index: 20; border-radius: 28px; padding: 24px; background: #111827; color: white; box-shadow: 0 28px 80px rgba(17,24,39,.32); }
+.web-alert-window .eyebrow { color: #bdf7d2; }
+.web-alert-window p { color: rgba(255,255,255,.76); }
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.close { position: absolute; right: 12px; top: 10px; width: 32px; height: 32px; border: 0; border-radius: 50%; background: rgba(255,255,255,.12); color: inherit; cursor: pointer; font-size: 20px; }
+.toast { position: fixed; left: 50%; bottom: 28px; transform: translate(-50%, 14px); opacity: 0; pointer-events: none; z-index: 30; background: #111827; color: white; padding: 13px 18px; border-radius: 999px; box-shadow: 0 20px 50px rgba(17,24,39,.25); transition: .25s ease; }
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+/* Electron floating window */
+/* Electron floating window layout.
+   This section styles the compact always-on-top desktop companion window. */
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.electron-floating-body { background: transparent; min-height: 100vh; overflow: hidden; }
+.desktop-floating-card { width: 100vw; height: 100vh; background: #ffffff; border: 1px solid rgba(17,24,39,.12); border-radius: 24px; box-shadow: 0 18px 60px rgba(17,24,39,.24); padding: 14px; display: grid; grid-template-rows: auto 1fr auto; gap: 10px; }
+.desktop-floating-card.alert { background: linear-gradient(145deg, #111827, #24311f); color: #fff; }
+.floating-drag-bar { -webkit-app-region: drag; display: flex; align-items: center; justify-content: space-between; gap: 8px; color: rgba(17,24,39,.55); font-size: 11px; font-weight: 850; letter-spacing: .03em; text-transform: uppercase; }
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.desktop-floating-card.alert .floating-drag-bar { color: rgba(255,255,255,.62); }
+.mini-dot { width: 8px; height: 8px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 0 5px rgba(34,197,94,.14); }
+.mini-button { -webkit-app-region: no-drag; border: 0; background: rgba(17,24,39,.08); width: 25px; height: 25px; border-radius: 50%; cursor: pointer; }
+.desktop-floating-card.alert .mini-button { background: rgba(255,255,255,.14); color: #fff; }
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.floating-simple { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 6px 2px 4px; }
+.floating-number strong { display: block; font-size: 54px; line-height: .9; letter-spacing: -.07em; }
+.floating-number span { color: var(--muted); font-size: 11px; font-weight: 850; text-transform: uppercase; letter-spacing: .08em; }
+.desktop-floating-card.alert .floating-number span { color: rgba(255,255,255,.6); }
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.floating-state { text-align: right; }
+.floating-state h1 { font-size: 20px; letter-spacing: -.04em; margin: 0 0 4px; }
+.floating-state p { margin: 0; font-size: 12px; color: var(--muted); }
+.desktop-floating-card.alert .floating-state p { color: rgba(255,255,255,.66); }
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.floating-actions { display: flex; gap: 8px; }
+.floating-actions .button { padding: 10px 12px; font-size: 12px; flex: 1; }
+.desktop-floating-card.alert .ghost { background: rgba(255,255,255,.14); color: white; border-color: rgba(255,255,255,.18); }
+
+/* Responsive adjustments for smaller desktop windows and browser debugging. */
+@media (max-width: 1100px) {
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  .shell { grid-template-columns: 1fr; }
+  .sidebar { position: relative; height: auto; }
+  .nav { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+  .cards-4, .cards-3, .two-col, .garden-layout { grid-template-columns: 1fr; }
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  .hero { align-items: flex-start; flex-direction: column; }
+}
+
+/* Final structure refinements */
+.brand-avatar {
+  position: relative;
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  width: 46px;
+  height: 46px;
+  border: 0;
+  border-radius: 16px;
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  overflow: visible;
+  cursor: pointer;
+  background:
+    radial-gradient(circle at 35% 28%, #ffffff 0 12%, transparent 13%),
+    /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+    linear-gradient(135deg, #111827, #2f6f58 55%, #85bfff);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.45), 0 12px 28px rgba(33, 66, 55, .22);
+}
+.brand-avatar span { display: grid; place-items: center; width: 100%; height: 100%; color: white; font-weight: 900; font-size: 20px; }
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.brand-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 16px; display: block; }
+.profile-gear {
+  position: absolute;
+  left: -5px;
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  bottom: -5px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  background: #fff;
+  border: 1px solid rgba(17,24,39,.12);
+  box-shadow: 0 8px 20px rgba(15,23,42,.18);
+  color: #111827;
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  font-style: normal;
+  font-size: 11px;
+  line-height: 18px;
+}
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.brand-avatar:hover { transform: translateY(-1px); }
+.profile-modal { position: fixed; inset: 0; z-index: 60; display: grid; place-items: center; padding: 22px; }
+.profile-backdrop { position: absolute; inset: 0; background: rgba(17,24,39,.28); backdrop-filter: blur(8px); }
+.profile-card { position: relative; width: min(520px, 100%); border-radius: 32px; padding: 28px; z-index: 1; }
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.profile-close { color: #111827; background: rgba(17,24,39,.08); }
+.profile-field { display: grid; gap: 8px; margin-top: 16px; color: #344054; font-weight: 800; }
+.profile-field input[type="text"] { width: 100%; border: 1px solid rgba(17,24,39,.12); border-radius: 18px; padding: 13px 14px; font: inherit; background: rgba(255,255,255,.78); }
+.profile-field input[type="file"] { border: 1px dashed rgba(47,111,88,.34); border-radius: 18px; padding: 14px; background: rgba(255,255,255,.62); }
+
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.clean-heading { margin-bottom: 14px; }
+.recovery-combined { align-items: center; }
+.quiet-note { padding: 20px; border-radius: 24px; background: rgba(255,255,255,.62); border: 1px solid rgba(255,255,255,.7); }
+.garden-layout-priority { grid-template-columns: minmax(0, 1.75fr) minmax(300px, .65fr); align-items: stretch; }
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.desk-editor-heading { align-items: flex-start; gap: 16px; }
+.desk-upload-actions { display: flex; gap: 10px; align-items: center; justify-content: flex-end; flex-wrap: wrap; }
+.upload-inline { display: inline-flex; align-items: center; justify-content: center; }
+.upload-inline input { display: none; }
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.garden-side-panel { display: flex; flex-direction: column; }
+.garden-side-panel .owned-list { flex: 1; min-height: 260px; margin-bottom: 16px; }
+
+/* Desktop floating window keeps original full-size proportions.
+   Main dashboard scaling is handled only by Electron zoomFactor, not by shared CSS. */
+.desktop-floating-card.alert { animation: urgentPulse 1.2s ease-in-out infinite; }
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+@keyframes urgentPulse { 50% { box-shadow: 0 18px 70px rgba(36,49,31,.44), 0 0 0 5px rgba(123,217,158,.18); } }
+
+@media (max-width: 1100px) {
+  .garden-layout-priority { grid-template-columns: 1fr; }
+  .desk-editor-heading { flex-direction: column; }
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  .desk-upload-actions { justify-content: flex-start; }
+}
+
+/* Refinements requested after structured version */
+.sidebar-status-stack { margin-top: auto; display: grid; gap: 10px; }
+.sidebar-status-stack .device-card { margin-top: 0; }
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.optional-device { background: rgba(255,255,255,.66); border-color: rgba(17,24,39,.08); }
+.optional-device .pulse { background: #7db7ff; box-shadow: 0 0 0 8px rgba(125,183,255,.13); }
+.hero-points { display: block; margin-top: 8px; font-style: normal; font-size: 11px; font-weight: 850; color: rgba(17,24,39,.72); background: rgba(255,255,255,.48); border-radius: 999px; padding: 6px 10px; }
+.recommended-panel { display: grid; align-content: center; }
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.single-recommend { margin-top: 0; background: rgba(255,255,255,.58); }
+.projection-note { margin-top: 16px; padding: 16px; border-radius: 20px; background: rgba(17,24,39,.05); border: 1px solid rgba(17,24,39,.08); }
+.owned-item { cursor: grab; transition: .22s ease; }
+.owned-item:hover { transform: translateY(-2px); background: rgba(255,255,255,.82); }
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.owned-item.placed { border-color: rgba(32,198,107,.24); background: rgba(226,249,235,.68); }
+.dragging-from-list { position: fixed !important; left: 0; top: 0; transform: translate(-50%, -50%) scale(.92) !important; pointer-events: none; z-index: 1000; filter: drop-shadow(0 24px 28px rgba(15,23,42,.28)); }
+.desk-upload-actions .button { white-space: nowrap; }
+.task-visual.plantbreath::before { background: radial-gradient(circle at 28% 58%, rgba(32,198,107,.42), transparent 22%), repeating-linear-gradient(90deg, rgba(47,111,88,.22) 0 2px, transparent 3px 14px); }
+
+
+/* Targeted refinements from final UI review */
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.brand-avatar {
+  background: #e5e7eb !important;
+  box-shadow: inset 0 0 0 1px rgba(17,24,39,.08), 0 12px 28px rgba(33,66,55,.10) !important;
+  overflow: visible;
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+}
+.brand-avatar img[hidden] { display: none !important; }
+.brand-avatar img { background: #e5e7eb; }
+.brand-avatar span { display: none !important; }
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.profile-gear { left: -7px; bottom: -7px; }
+.pulse { flex: 0 0 12px; width: 12px; height: 12px; min-width: 12px; min-height: 12px; }
+.optional-device .pulse { background: #24c46a !important; box-shadow: 0 0 0 8px rgba(36,196,106,.14) !important; }
+.status-dot { flex: 0 0 12px; min-width: 12px; min-height: 12px; }
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.status-stack-horizontal { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.device-status-panel { padding: 26px; }
+.hero-orb { overflow: visible; }
+.hero-points {
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  font-size: 17px !important;
+  font-weight: 900 !important;
+  padding: 12px 20px !important;
+  min-width: 168px;
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  color: #1f2937 !important;
+  background: rgba(255,255,255,.76) !important;
+  box-shadow: 0 14px 38px rgba(15,23,42,.12);
+  transform: translateY(4px);
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+}
+.desk-editor-heading-stacked {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  align-items: start !important;
+  gap: 18px !important;
+}
+.desk-editor-heading-stacked h3 { max-width: 720px; }
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.desk-editor-heading-stacked .desk-upload-actions { justify-content: flex-start !important; width: 100%; }
+.desk-editor-heading-stacked .upload-inline { width: min(560px, 100%); min-height: 58px; }
+.web-alert-window {
+  left: 28px;
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  right: auto;
+  bottom: 28px;
+  width: min(380px, calc(100vw - 56px));
+  background: #111827;
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+}
+.web-alert-window h3 { margin-bottom: 8px; color: #fff; }
+.web-alert-window .button-row { margin-top: 16px; }
+.web-alert-window .ghost { background: rgba(255,255,255,.13); color: #fff; border-color: rgba(255,255,255,.18); }
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.quiet-note p { font-size: 15px; }
+.desktop-floating-card { width: 100%; height: 100%; }
+.desktop-floating-card.alert .floating-actions { grid-template-columns: 1fr auto; }
+.desktop-floating-card.alert #openDashboardBtn::after { content: ''; }
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+@media (max-width: 900px) { .status-stack-horizontal { grid-template-columns: 1fr; } }
+
+
+/* v6 refinements */
+.brand-avatar::after {
+  content: 'Upload\A avatar';
+  white-space: pre;
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  text-align: center;
+  font-size: 8px;
+  line-height: 1.05;
+  font-weight: 850;
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  letter-spacing: .01em;
+  color: rgba(17,24,39,.46);
+  pointer-events: none;
+}
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.brand-avatar.has-avatar::after { display: none; }
+.store-title-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.store-title-row h3 { margin-bottom: 0; }
+.store-points { background: rgba(17,24,39,.92); color: white; padding: 9px 14px; font-size: 13px; box-shadow: 0 12px 28px rgba(17,24,39,.12); }
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.task-card, .element-card {
+  min-height: 355px;
+  display: flex;
+  flex-direction: column;
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+}
+.task-card .card-meta, .element-card .card-meta { margin-top: auto; }
+.task-card .button, .element-card .button { align-self: flex-start; }
+.owned-list { min-height: 180px; border-radius: 22px; padding: 6px; outline: 1px dashed rgba(17,24,39,.10); outline-offset: -2px; }
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.owned-item.placed { border-color: rgba(255,255,255,.7) !important; background: rgba(255,255,255,.64) !important; }
+.desktop-floating-card.alert {
+  background: #111827 !important;
+  color: #fff;
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  animation: urgentPulse 1.2s ease-in-out infinite;
+}
+.desktop-floating-card.alert .floating-actions { display: grid; grid-template-columns: 1fr; }
+.desktop-floating-card.alert #laterBtn { display: none !important; }
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.web-alert-window p { line-height: 1.55; }
+
+
+/* v7 refinements */
+.brand-avatar {
+  overflow: hidden !important;
+}
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.brand-avatar::after {
+  content: 'Upload' !important;
+  white-space: normal !important;
+  font-size: 9px !important;
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  line-height: 1 !important;
+  z-index: 1;
+}
+.brand-avatar img {
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  object-fit: cover !important;
+  border-radius: inherit !important;
+  z-index: 1;
+}
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.brand-avatar.has-avatar { background: #e5e7eb !important; }
+.brand-avatar.has-avatar::after { display: none !important; }
+.profile-gear { z-index: 3; }
+.section-intro { max-width: 860px; margin-top: 12px; font-size: 16px; line-height: 1.65; }
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.desktop-floating-card.alert .button.primary,
+.desktop-floating-card.alert #openDashboardBtn {
+  background: #ffffff !important;
+  color: #111827 !important;
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  border-color: #ffffff !important;
+  box-shadow: 0 14px 30px rgba(255,255,255,.18) !important;
+}
+.garden-notes-panel {
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  padding: 20px;
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+}
+.garden-notes-panel .projection-note { margin-top: 0; }
+.desk-surface.has-photo .desk-screen,
+.desk-surface.has-photo .desk-keyboard {
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  display: none !important;
+}
+.desk-delete-btn {
+  width: 38px;
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  height: 38px;
+  border-radius: 999px;
+  border: 1px solid rgba(17,24,39,.12);
+  background: rgba(255,255,255,.92);
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  color: #111827;
+  font-size: 24px;
+  line-height: 1;
+  font-weight: 650;
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  cursor: pointer;
+  box-shadow: 0 12px 34px rgba(15,23,42,.14);
+}
+.desk-upload-actions { align-items: center !important; }
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.garden-side-panel { min-height: 100%; }
+.owned-list {
+  min-height: 240px !important;
+  border: 1px dashed rgba(47,111,88,.26) !important;
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  background: rgba(255,255,255,.38);
+}
+.plant-dot { touch-action: none; }
+.task-card { min-height: 380px; }
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.task-card .button, .element-card .button { margin-top: 18px; }
+@media (max-width: 900px) {
+  .garden-notes-panel { grid-template-columns: 1fr; }
+}
+
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.desk-surface .desk-delete-btn {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  z-index: 8;
+}
+.desk-surface:not(.has-photo) .desk-delete-btn { display: none !important; }
+
+/* v8 refinements */
+.brand-avatar {
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  overflow: visible !important;
+}
+.brand-avatar img {
+  overflow: hidden !important;
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  clip-path: inset(0 round 18px);
+}
+.profile-gear {
+  left: -4px !important;
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  bottom: -4px !important;
+  width: 24px !important;
+  height: 24px !important;
+  display: grid !important;
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  place-items: center !important;
+  border-radius: 999px !important;
+  background: #ffffff !important;
+  box-shadow: 0 10px 26px rgba(15,23,42,.18) !important;
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  font-size: 12px !important;
+  line-height: 1 !important;
+  overflow: visible !important;
+}
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.custom-file-button {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  justify-content: center;
+  border: 1px solid rgba(17,24,39,.12);
+  border-radius: 999px;
+  padding: 12px 18px;
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  background: #111827;
+  color: #ffffff;
+  cursor: pointer;
+  font-weight: 850;
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+}
+.visually-hidden-file {
+  position: absolute !important;
+  width: 1px !important;
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  height: 1px !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+/* Co-Break page layout, member cards, waiting state, and acceptance feedback. */
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.cobreak-heading-row {
+  align-items: center !important;
+}
+.cobreak-heading-row .button {
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  flex: 0 0 auto;
+}
+.garden-layout-priority {
+  align-items: stretch !important;
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+}
+.desk-stage,
+.garden-side-panel {
+  height: 100% !important;
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+}
+.garden-side-panel {
+  display: flex !important;
+  flex-direction: column !important;
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+}
+.garden-side-panel .owned-list,
+.owned-list {
+  flex: 1 1 auto !important;
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  max-height: none !important;
+  min-height: 520px !important;
+  padding: 16px !important;
+  overflow: auto !important;
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+}
+.owned-item {
+  user-select: none;
+}
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.owned-item.selected {
+  border-color: rgba(47,111,88,.46) !important;
+  background: rgba(223,249,234,.86) !important;
+  box-shadow: inset 0 0 0 2px rgba(47,111,88,.10), 0 18px 38px rgba(47,111,88,.10) !important;
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+}
+.owned-item.selected::after {
+  content: 'Selected · drag now';
+  grid-column: 2;
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  color: #2f6f58;
+  font-size: 12px;
+  font-weight: 850;
+  margin-top: 2px;
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+}
+.owned-item.dragging-active {
+  opacity: .62;
+}
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.desktop-floating-card.alert #openDashboardBtn {
+  display: none !important;
+}
+.desktop-floating-card.alert #laterBtn {
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  display: inline-flex !important;
+  justify-content: center !important;
+  background: #ffffff !important;
+  color: #111827 !important;
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  border-color: #ffffff !important;
+  font-weight: 900 !important;
+}
+.desktop-floating-card.alert .floating-actions {
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+}
+
+
+/* v9 targeted refinements */
+/* Desktop floating alert: keep only Open dashboard in the desktop floating window. */
+.desktop-floating-card.alert #openDashboardBtn {
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  display: inline-flex !important;
+  justify-content: center !important;
+  background: #ffffff !important;
+  color: #111827 !important;
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  border-color: #ffffff !important;
+}
+.desktop-floating-card.alert #laterBtn { display: none !important; }
+
+/* In-app alert: only Later button, visually clear on dark background. */
+.web-alert-window .button-row { justify-content: flex-start; }
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.web-alert-window #webAlertLaterBtn {
+  background: #ffffff !important;
+  color: #111827 !important;
+  border-color: #ffffff !important;
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+}
+
+/* Purchased elements panel: keep item size consistent and avoid stretching sparse lists. */
+.garden-side-panel .owned-list,
+.owned-list {
+  flex: 0 0 auto !important;
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  min-height: 180px !important;
+  max-height: 520px !important;
+  align-content: start !important;
+}
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.garden-side-panel { justify-content: flex-start !important; }
+.owned-item { align-self: start !important; }
+
+/* Co-Break layout: tighter, more balanced and less scattered. */
+.cobreak-heading-row {
+  display: grid !important;
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  gap: 18px !important;
+  align-items: start !important;
+  margin-bottom: 14px !important;
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+}
+.cobreak-heading-row h3 { margin-bottom: 0 !important; }
+.recovery-combined {
+  grid-template-columns: minmax(0, 1.15fr) minmax(280px, .85fr) !important;
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  align-items: start !important;
+  gap: 22px !important;
+}
+.recovery-combined .team-meter { margin: 14px 0 18px !important; }
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.recovery-combined .large-copy {
+  font-size: 18px !important;
+  line-height: 1.45 !important;
+  max-width: 620px !important;
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  margin-bottom: 0 !important;
+}
+.quiet-note {
+  padding: 18px 20px !important;
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  border-radius: 22px !important;
+  box-shadow: none !important;
+}
+.quiet-note h3 { margin-bottom: 8px !important; }
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.quiet-note p {
+  font-size: 14px !important;
+  line-height: 1.55 !important;
+  margin-bottom: 0 !important;
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+}
+@media (max-width: 900px) {
+  .cobreak-heading-row, .recovery-combined { grid-template-columns: 1fr !important; }
+}
+
+/* v10 Co-Break separation and shared recovery matching */
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.cobreak-setup-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 0.7fr);
+  gap: 22px;
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  align-items: end;
+}
+.company-form { display: grid; gap: 12px; }
+.company-form input,
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.cobreak-preferences input[type="text"] {
+  width: 100%;
+  border: 1px solid rgba(17,24,39,.10);
+  border-radius: 18px;
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  padding: 14px 16px;
+  font: inherit;
+  font-weight: 750;
+  background: rgba(255,255,255,.82);
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  color: var(--ink);
+  outline: none;
+}
+.company-form input:focus { border-color: rgba(47,111,88,.32); box-shadow: 0 0 0 4px rgba(123,217,158,.18); }
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.cobreak-topbar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 18px;
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  align-items: start;
+  margin-bottom: 18px;
+}
+.cobreak-topbar h3 { margin-bottom: 8px; }
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.cobreak-preferences {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  padding: 12px;
+  border-radius: 20px;
+  background: rgba(255,255,255,.56);
+  border: 1px solid rgba(17,24,39,.06);
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  margin: 12px 0 16px;
+}
+.cobreak-preferences label {
+  display: flex;
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  align-items: center;
+  gap: 8px;
+  color: #344054;
+  font-weight: 750;
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+}
+.cobreak-preferences input { accent-color: #2f6f58; }
+.cobreak-status-card {
+  padding: 18px;
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  border-radius: 22px;
+  background: linear-gradient(135deg, rgba(225,244,237,.9), rgba(235,244,255,.9));
+  border: 1px solid rgba(47,111,88,.12);
+  margin-bottom: 18px;
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+}
+.cobreak-status-card strong { display: block; margin-bottom: 5px; font-size: 18px; }
+.cobreak-status-card.waiting { background: linear-gradient(135deg, rgba(255,247,230,.95), rgba(232,242,255,.9)); }
+.cobreak-status-card.ready { background: linear-gradient(135deg, rgba(219,250,231,.96), rgba(232,246,255,.92)); }
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.cobreak-status-card .inline-action { margin-top: 12px; }
+.team-member-list {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  gap: 12px;
+}
+.team-member-card {
+  border: 1px solid rgba(17,24,39,.08);
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  background: rgba(255,255,255,.72);
+  border-radius: 22px;
+  padding: 12px;
+  display: grid;
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  grid-template-columns: 46px 1fr auto;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  text-align: left;
+  color: var(--ink);
+  transition: .22s ease;
+  box-shadow: 0 12px 28px rgba(15,23,42,.05);
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+}
+.team-member-card:hover { transform: translateY(-2px); background: rgba(255,255,255,.92); }
+.team-member-card.selected { border-color: rgba(47,111,88,.42); background: rgba(225,249,235,.9); box-shadow: 0 16px 36px rgba(47,111,88,.12); }
+.team-member-card.accepted { border-color: rgba(36,196,106,.6); }
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.team-member-card img { width: 46px; height: 46px; border-radius: 50%; object-fit: cover; background: #e5e7eb; }
+.team-member-card strong { display: block; font-size: 14px; letter-spacing: -.02em; }
+.team-member-card span { color: var(--muted); font-size: 11px; line-height: 1.35; display: block; margin-top: 2px; }
+.team-member-card em { font-style: normal; font-weight: 900; color: #2f6f58; background: rgba(47,111,88,.08); border-radius: 999px; padding: 7px 9px; }
+
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+@media (max-width: 1100px) {
+  .team-member-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .cobreak-setup-panel, .cobreak-topbar { grid-template-columns: 1fr; }
+}
+
+/* v11: Co-Break waiting state should match Co-Flow visual language, not yellow. */
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.cobreak-status-card.waiting {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, rgba(225,244,237,.96), rgba(232,246,255,.94));
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  border-color: rgba(47,111,88,.16);
+}
+.cobreak-status-card.waiting::after {
+  content: '';
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  position: absolute;
+  inset: auto -20% 0 -20%;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, rgba(47,111,88,.45), rgba(116,191,238,.45), transparent);
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  animation: waitingFlow 1.9s ease-in-out infinite;
+}
+@keyframes waitingFlow {
+  from { transform: translateX(-35%); opacity: .35; }
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  50% { opacity: 1; }
+  to { transform: translateX(35%); opacity: .35; }
+}
+.preference-badges {
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+.pref-badge {
+  border-radius: 999px;
+  padding: 10px 14px;
+  font-weight: 850;
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  font-size: 13px;
+  border: 1px solid rgba(17,24,39,.08);
+  background: rgba(255,255,255,.65);
+  color: #667085;
+/* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+}
+.pref-badge.active {
+  background: rgba(225,244,237,.96);
+  border-color: rgba(47,111,88,.18);
+  /* Dense note: this visual rule supports the Co-Flow Electron dashboard or floating window. */
+  color: #2f6f58;
+}
+
+/* v15 asset replacement updates: custom imagery for Recovery and Restorative Garden only. */
+.task-visual.task-visual-image {
+  position: relative;
+  background-image:
+    linear-gradient(180deg, rgba(17,24,39,.08) 0%, rgba(17,24,39,.16) 100%),
+    var(--task-image);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: #ffffff;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.35);
+}
+.task-visual.task-visual-image::before {
+  content: none !important;
+}
+.task-visual.task-visual-image::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(17,24,39,.14));
+  pointer-events: none;
+}
+.task-visual-label {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 850;
+  color: rgba(17,24,39,.72);
+  text-shadow: 0 1px 0 rgba(255,255,255,.18);
+}
+
+.nature-visual.nature-visual-image {
+  display: grid;
+  place-items: center;
+  padding: 8px;
+  background: linear-gradient(135deg, #eef8f1, #eef5ff);
+}
+.nature-visual.nature-visual-image span,
+.nature-visual.nature-visual-image i,
+.nature-visual.nature-visual-image b {
+  display: none !important;
+}
+.nature-visual.nature-visual-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+  filter: drop-shadow(0 10px 18px rgba(15,23,42,.12));
+}
+.element-card .nature-visual.nature-visual-image {
+  padding: 10px;
+}
+.owned-item .nature-visual.nature-visual-image {
+  padding: 4px;
+  background: linear-gradient(135deg, #f3faf4, #f3f7ff);
+}
+.plant-dot .nature-visual.nature-visual-image {
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.plant-dot .nature-visual.nature-visual-image img {
+  filter: drop-shadow(0 10px 18px rgba(15,23,42,.22));
+}
+
+
+/* v16 fix: direct image tags for Recovery cards so Electron always displays them. */
+.task-visual.task-visual-image {
+  position: relative !important;
+  padding: 0 !important;
+  display: block !important;
+  overflow: hidden !important;
+  background: #eef4f0 !important;
+}
+.task-visual.task-visual-image::before,
+.task-visual.task-visual-image::after {
+  content: none !important;
+  display: none !important;
+}
+.task-visual.task-visual-image img {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  display: block !important;
+  z-index: 0 !important;
+}
+.task-visual.task-visual-image .task-visual-label {
+  position: absolute !important;
+  left: 16px !important;
+  bottom: 14px !important;
+  z-index: 2 !important;
+  color: rgba(17,24,39,.72) !important;
+  font-size: 16px !important;
+  font-weight: 850 !important;
+  text-shadow: 0 1px 0 rgba(255,255,255,.22) !important;
+}
+
+
+/* v17 garden correction: transparent placed assets, no title strip, quantity badge, and resize frame. */
+.plant-dot {
+  width: 128px !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  filter: none !important;
+  outline: 0 solid transparent;
+  border: 1px solid transparent;
+  border-radius: 14px;
+}
+.plant-dot:hover,
+.plant-dot:focus-within {
+  border-color: rgba(47,111,88,.48);
+  outline: 1px dashed rgba(47,111,88,.32);
+  outline-offset: 4px;
+}
+.plant-dot small {
+  display: none !important;
+}
+.plant-dot .nature-visual,
+.plant-dot .nature-visual.nature-visual-image {
+  background: transparent !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  height: 96px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+.plant-dot .nature-visual.nature-visual-image img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+  filter: none !important;
+}
+.plant-resize-handle {
+  position: absolute;
+  right: -9px;
+  bottom: -9px;
+  width: 18px;
+  height: 18px;
+  display: none;
+  border: 2px solid #2f6f58;
+  border-radius: 999px;
+  background: rgba(255,255,255,.95);
+  box-shadow: 0 8px 18px rgba(15,23,42,.16);
+  cursor: nwse-resize;
+  z-index: 6;
+}
+.plant-dot:hover .plant-resize-handle,
+.plant-dot:focus-within .plant-resize-handle {
+  display: block;
+}
+.owned-item {
+  position: relative;
+}
+.owned-quantity {
+  position: absolute;
+  right: 8px;
+  top: 8px;
+  min-width: 25px;
+  height: 25px;
+  display: grid;
+  place-items: center;
+  padding: 0 7px;
+  border-radius: 999px;
+  background: #111827;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 900;
+  z-index: 3;
+  box-shadow: 0 8px 18px rgba(15,23,42,.18);
+}
+.dragging-from-list {
+  pointer-events: none;
+  z-index: 80;
+}
+.dragging-from-list .plant-resize-handle {
+  display: none !important;
+}
+
+
+/* v20: remove text overlay from Recovery task preview images. */
+.task-visual.task-visual-image .task-visual-label {
+  display: none !important;
+}
+
+/* v20: keep Morning Sunbeam complete in Nature Store and inventory previews. */
+.nature-visual.nature-visual-image.sunbeam {
+  overflow: visible !important;
+}
+.element-card .nature-visual.nature-visual-image.sunbeam,
+.owned-item .nature-visual.nature-visual-image.sunbeam {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+.element-card .nature-visual.nature-visual-image.sunbeam img,
+.owned-item .nature-visual.nature-visual-image.sunbeam img {
+  width: 92% !important;
+  height: 92% !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+  display: block !important;
+}

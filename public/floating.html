@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Co-Flow Floating Window</title>
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<!-- Co-Flow note: Floating always-on-top desktop window renderer for Co-Flow. -->
+<!-- This file is loaded by Electron through the local server; it is not intended as a standalone public website. -->
+<!-- The JavaScript renderer connects these controls to the local SQLite-backed API. -->
+<!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+<body class="electron-floating-body">
+  <!-- Compact desktop card shown as the always-on-top Electron floating window. -->
+  <main class="desktop-floating-card" id="floatingCard">
+    <div class="floating-drag-bar">
+      <span class="mini-dot"></span>
+      <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+      <span>Co-Flow</span>
+      <button class="mini-button" id="refreshBtn" title="Refresh">↻</button>
+    </div>
+
+    <!-- Energy and fatigue state display for quick peripheral awareness. -->
+    <section class="floating-simple">
+      <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+      <div class="floating-number">
+        <strong id="floatingEnergy">--</strong>
+        <span>Energy</span>
+      </div>
+      <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+      <div class="floating-state">
+        <h1 id="floatingStatus">Loading</h1>
+        <p id="floatingHint">Working rhythm monitor</p>
+      </div>
+    <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+    </section>
+
+    <!-- Floating window actions that communicate with Electron through preload.cjs. -->
+    <section class="floating-actions">
+      <button id="openDashboardBtn" class="button primary">Open dashboard</button>
+      <button id="laterBtn" class="button ghost">Later</button>
+    <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+    </section>
+  </main>
+  <!-- Renderer logic for polling state and opening the dashboard/recovery window. -->
+  <script type="module" src="/js/floating.js"></script>
+</body>
+</html>

@@ -1,0 +1,435 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Co-Flow — Spatial Nature Recovery System</title>
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<!-- Co-Flow note: Main dashboard renderer for the Co-Flow Electron desktop prototype. -->
+<!-- This file is loaded by Electron through the local server; it is not intended as a standalone public website. -->
+<!-- The JavaScript renderer connects these controls to the local SQLite-backed API. -->
+<!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+<body>
+  <div class="ambient ambient-a"></div>
+  <div class="ambient ambient-b"></div>
+
+  <div class="shell">
+    <!-- Sidebar navigation and desktop device status summary. -->
+    <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+    <aside class="sidebar glass">
+      <div class="brand">
+        <button class="brand-avatar" id="profileAvatarBtn" title="Edit profile"><span id="brandAvatarInitial">Y</span><img id="brandAvatarImage" alt="User avatar" hidden><i class="profile-gear">⚙</i></button>
+        <div>
+          <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+          <strong>Co-Flow</strong>
+          <span>Spatial Recovery</span>
+        </div>
+      </div>
+
+      <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+      <nav class="nav" aria-label="Main navigation">
+        <a class="nav-link active" href="#dashboard" data-section="dashboard">Dashboard</a>
+        <a class="nav-link" href="#tasks" data-section="tasks">Recovery</a>
+        <a class="nav-link" href="#cobreak" data-section="cobreak">Co-Break</a>
+        <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+        <a class="nav-link" href="#camera" data-section="camera">Camera Monitor</a>
+        <a class="nav-link" href="#garden" data-section="garden">Restorative Garden</a>
+      </nav>
+
+      <div class="sidebar-status-stack">
+        <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+        <div class="device-card optional-device hidden" id="sidebarCameraCard">
+          <span class="pulse"></span>
+          <div>
+            <strong>Camera Monitor</strong>
+            <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+            <p id="sidebarCameraStatus">Monitoring locally</p>
+          </div>
+        </div>
+        <div class="device-card optional-device hidden" id="sidebarPhoneCard">
+          <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+          <span class="pulse"></span>
+          <div>
+            <strong>Phone Desk Scan</strong>
+            <p id="sidebarPhoneStatus">Desk photo synced · model ready</p>
+          <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+          </div>
+        </div>
+        <div class="device-card">
+          <span class="pulse"></span>
+          <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+          <div>
+            <strong>Wristband</strong>
+            <p id="sidebarDeviceStatus">Bluetooth linked · Projection ready</p>
+          </div>
+        <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main dashboard content rendered inside the Electron desktop window. -->
+    <main class="content">
+      <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+      <header class="hero glass">
+        <div>
+          <p class="eyebrow" id="heroEyebrow">Spatial Nature Recovery System</p>
+          <h1 id="heroTitle">Work rhythm, restored by visible nature.</h1>
+          <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+          <p class="hero-copy" id="heroCopy">Co-Flow connects fatigue detection, nature-based recovery, team breaks, Nature Points and desk projection into one continuous recovery experience.</p>
+        </div>
+        <div class="hero-orb" id="energyOrb">
+          <span id="heroEnergy">--</span>
+          <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+          <small>Energy</small>
+          <em id="heroPoints" class="hero-points hidden">-- Nature Points</em>
+        </div>
+      </header>
+
+      <!-- Dashboard section: energy, system status, and recent recovery history. -->
+      <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+      <section id="dashboard" class="page active">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Home / Dashboard</p>
+            <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+            <h2>Personal recovery state and system overview</h2>
+          </div>
+          <button class="button ghost" id="simulateWorkBtn">Simulate 30 min work</button>
+        </div>
+
+
+        <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+        <div class="grid cards-4">
+          <article class="metric-card glass">
+            <span class="label">Personal Energy</span>
+            <strong id="energyValue">--</strong>
+            <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+            <p id="energyStatus">Loading</p>
+          </article>
+          <article class="metric-card glass">
+            <span class="label">Nature Points</span>
+            <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+            <strong id="pointsValue">--</strong>
+            <p>Available reward balance</p>
+          </article>
+          <article class="metric-card glass">
+            <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+            <span class="label">Team Average</span>
+            <strong id="teamEnergy">--</strong>
+            <p id="teamStatus">Aggregated team state</p>
+          </article>
+          <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+          <article class="metric-card glass">
+            <span class="label">Desk Model</span>
+            <strong id="scanStatus">--</strong>
+            <p>Simulated 3D desk plane</p>
+          <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+          </article>
+        </div>
+
+        <article class="panel glass top-gap device-status-panel">
+          <h3>Device and sensing status</h3>
+          <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+          <div class="status-stack status-stack-horizontal">
+            <div><span class="status-dot on"></span><strong>Wristband Bluetooth</strong><p id="wristbandStatus" class="muted">Connected · vibration and projection ready</p></div>
+            <div><span class="status-dot" id="cameraStatusDot"></span><strong>Camera Monitor</strong><p id="dashboardCameraStatus" class="muted">Off</p></div>
+            <div><span class="status-dot on"></span><strong>Phone Desk Scan</strong><p id="phoneStatus" class="muted">Ready for desk photo upload</p></div>
+          <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+          </div>
+        </article>
+
+        <article class="panel glass top-gap cobreak-dashboard-panel hidden" id="dashboardCoBreakPrefsPanel">
+          <div class="section-mini-heading">
+            <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+            <div>
+              <p class="eyebrow">Co-Break Preferences</p>
+              <h3>Shared recovery visibility</h3>
+            </div>
+          <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+          </div>
+          <div class="preference-badges" id="dashboardCoBreakPrefs">
+            <span class="pref-badge neutral">Invitations enabled</span>
+            <span class="pref-badge neutral">Visible in team list</span>
+          <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+          </div>
+        </article>
+
+        <article class="panel glass top-gap">
+          <div class="section-mini-heading">
+            <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+            <div>
+              <p class="eyebrow">Recent History</p>
+              <h3>Recovery record</h3>
+            </div>
+          <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+          </div>
+          <div id="dashboardHistory" class="history-list compact-history"></div>
+        </article>
+      </section>
+
+      <!-- Recovery section: data-driven nature task cards. -->
+      <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+      <section id="tasks" class="page">
+        <div class="section-heading clean-heading">
+          <div>
+            <p class="eyebrow">Recovery</p>
+            <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+            <h2>Choose a short individual nature task.</h2>
+            <p class="section-intro muted">Wear the Co-Flow wristband when you step outdoors or move away from the desk. In the final system, recovery actions are recorded automatically by the wristband; in this prototype, use Mark complete to simulate the recording.</p>
+          </div>
+        </div>
+
+        <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+        <article class="panel glass top-gap">
+          <div class="section-mini-heading">
+            <div>
+              <p class="eyebrow">Individual Recovery</p>
+              <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+              <h3>Short nature-based recovery actions</h3>
+            </div>
+          </div>
+          <div id="tasksGrid" class="grid cards-3"></div>
+        <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+        </article>
+      </section>
+
+      <!-- Co-Break section: voluntary shared recovery invitation flow. -->
+      <section id="cobreak" class="page">
+        <div class="section-heading clean-heading">
+          <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+          <div>
+            <p class="eyebrow">Co-Break</p>
+            <h2>Invite low-energy team members for a shared recovery break.</h2>
+            <p class="section-intro muted">Co-Break supports voluntary shared rest. It uses team energy states to help users find suitable recovery partners without exposing private recovery details.</p>
+          <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+          </div>
+        </div>
+
+        <article class="panel glass top-gap cobreak-setup-panel" id="coBreakCompanyPanel">
+          <div>
+            <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+            <p class="eyebrow">Company setup</p>
+            <h3>Enter your company to view the shared recovery pool</h3>
+            <p class="muted">This prototype simulates company members and their current energy values for team recovery matching.</p>
+          </div>
+          <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+          <div class="company-form">
+            <input id="companyInput" type="text" placeholder="e.g. Bla+Bla Studio" />
+            <button class="button primary" id="confirmCompanyBtn">Confirm company</button>
+          </div>
+        <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+        </article>
+
+        <article class="panel glass top-gap hidden" id="coBreakPanel">
+          <div class="cobreak-topbar">
+            <div>
+              <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+              <p class="eyebrow">Team recovery pool</p>
+              <h3 id="companyTitle">Company members ranked by energy</h3>
+              <p class="muted">Select at least two low-energy members, send an invitation, and wait for responses. If no one accepts within 30 seconds, Co-Flow will auto-match one available recovery partner so at least two people can take a break together.</p>
+            </div>
+            <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+            <button class="button primary" id="sendInviteBtn">Invite selected members</button>
+          </div>
+
+          <div class="cobreak-preferences">
+            <label><input type="checkbox" id="prefNoInvite"> Do not allow others to invite me</label>
+            <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+            <label><input type="checkbox" id="prefHidden"> Do not show me in the team list</label>
+          </div>
+
+          <div class="cobreak-status-card" id="coBreakStatusCard">
+            <strong>Waiting for invitation</strong>
+            <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+            <p class="muted">Choose low-energy members to begin a shared recovery request.</p>
+          </div>
+
+          <div id="teamMemberList" class="team-member-list"></div>
+        </article>
+      <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+      </section>
+
+      <!-- Camera Monitor section: local motion-difference prototype. -->
+      <section id="camera" class="page">
+        <div class="section-heading">
+          <div>
+            <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+            <p class="eyebrow">Camera Monitor</p>
+            <h2>Local low-movement detection</h2>
+          </div>
+          <div class="button-row">
+            <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+            <button class="button primary" id="startCameraBtn">Enable camera detection</button>
+            <button class="button secondary" id="stopCameraBtn">Stop camera</button>
+          </div>
+        </div>
+        <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+        <div class="grid two-col">
+          <article class="panel glass large-panel camera-panel">
+            <div class="camera-preview-wrap">
+              <video id="cameraVideo" autoplay muted playsinline></video>
+              <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+              <canvas id="cameraCanvas" width="160" height="120" hidden></canvas>
+              <div class="scan-overlay"></div>
+            </div>
+            <div class="camera-readout">
+              <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+              <div><span class="label">Movement Level</span><strong id="movementLevel">--</strong></div>
+              <div><span class="label">Inactive Minutes</span><strong id="inactiveMinutes">0</strong></div>
+              <div><span class="label">Energy Impact</span><strong id="cameraImpact">Waiting</strong></div>
+            </div>
+          <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+          </article>
+          <article class="panel glass">
+            <h3>Privacy logic</h3>
+            <p class="muted">Camera detection runs locally. Co-Flow does not record, store, or upload video. The prototype only calculates movement level and inactive time to update energy value.</p>
+            <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+            <ul class="clean-list">
+              <li>Low movement increases inactive time.</li>
+              <li>Clear movement resets inactivity thresholds.</li>
+              <li>Energy decreases only when a threshold is reached.</li>
+              <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+              <li>Prototype mode counts low movement quickly for demo.</li>
+            </ul>
+          </article>
+        </div>
+      <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+      </section>
+
+      <!-- Restorative Garden section: desk photo and nature element placement. -->
+      <section id="garden" class="page">
+        <div class="section-heading clean-heading">
+          <div>
+            <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+            <p class="eyebrow">Restorative Garden</p>
+            <h2>Build a miniature natural landscape on your own desk.</h2>
+          </div>
+
+        </div>
+
+        <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+        <div class="garden-layout garden-layout-priority top-gap">
+          <article class="desk-stage glass" id="deskStage">
+            <div class="section-mini-heading desk-editor-heading desk-editor-heading-stacked">
+              <div>
+                <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+                <p class="eyebrow">Desk Garden editor</p>
+                <h3>Upload your desk photo, then drag purchased elements onto it.</h3>
+              </div>
+              <div class="desk-upload-actions">
+                <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+                <label class="button primary upload-inline" for="deskPhotoInput">
+                  <input id="deskPhotoInput" type="file" accept="image/*" />
+                  Upload desk photo and generate desk plane
+                </label>
+              <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+              </div>
+            </div>
+            <div class="desk-surface simulated" id="gardenDeskSurface">
+              <button class="desk-delete-btn hidden" id="deleteDeskPhotoBtn" type="button" aria-label="Remove uploaded desk photo">×</button>
+              <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+              <div class="desk-photo-placeholder" id="gardenPhotoPlaceholder">Upload a real desk photo to create your simulated 3D desk</div>
+              <div class="desk-screen"></div>
+              <div class="desk-keyboard"></div>
+              <div class="scan-line subtle"></div>
+              <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+              <div id="plantLayer"></div>
+            </div>
+          </article>
+
+          <aside class="panel glass garden-side-panel">
+            <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+            <h3>Purchased elements</h3>
+            <p class="muted">Drag redeemed elements onto the desk to build a small natural micro-landscape. Drag an arranged element back here to remove it from the desk.</p>
+            <div id="ownedElementList" class="owned-list"></div>
+
+          </aside>
+        <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+        </div>
+
+        <article class="panel glass top-gap garden-notes-panel">
+          <div class="projection-note clean-note">
+            <strong>Daily refresh</strong>
+            <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+            <p class="muted small-note">Nature Points and purchased elements refresh every day at 12:00 AM. This gives users a fresh daily reason to complete recovery tasks and rebuild a new desk landscape.</p>
+          </div>
+          <div class="projection-note clean-note">
+            <strong>Project to real desk</strong>
+            <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+            <p class="muted small-note">Press the wristband projection button to display the arranged natural elements on the physical desk. In this prototype, the projection is represented by the saved digital desk layout.</p>
+          </div>
+        </article>
+
+        <article class="panel glass top-gap">
+          <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+          <div class="section-mini-heading">
+            <div>
+              <p class="eyebrow">Nature Store</p>
+              <div class="store-title-row">
+                <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+                <h3>Redeem natural elements</h3>
+                <span id="storePointsBadge" class="points-pill store-points">-- Nature Points</span>
+              </div>
+            </div>
+            <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+            <div id="storeFilters" class="filter-row" aria-label="Nature Store filters"></div>
+          </div>
+          <div id="natureStore" class="grid cards-3"></div>
+        </article>
+      <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+      </section>
+    </main>
+  </div>
+
+  <article id="webRecoveryAlert" class="web-alert-window hidden" role="status" aria-live="polite">
+    <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+    <p class="eyebrow">Recovery Alert</p>
+    <h3>Severe fatigue detected</h3>
+    <p>Energy is critically low. Please wear the Co-Flow wristband and go outdoors to complete a recovery break. This reminder can be paused for 10 minutes.</p>
+    <div class="button-row compact">
+      <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+      <button class="button ghost" id="webAlertLaterBtn">Later</button>
+    </div>
+  </article>
+
+  <div class="profile-modal hidden" id="profileModal" role="dialog" aria-modal="true" aria-labelledby="profileTitle">
+    <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+    <div class="profile-backdrop" id="profileBackdrop"></div>
+    <article class="profile-card glass">
+      <button class="close profile-close" id="profileCloseBtn" aria-label="Close profile editor">×</button>
+      <p class="eyebrow">Profile</p>
+      <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+      <h3 id="profileTitle">User identity</h3>
+      <p class="muted">This information is used to personalise the dashboard. It does not affect recovery logic.</p>
+      <div class="profile-field">
+        <span>Avatar</span>
+        <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+        <label class="custom-file-button" for="profileAvatarInput">Choose avatar image</label>
+        <input id="profileAvatarInput" class="visually-hidden-file" type="file" accept="image/*" />
+      </div>
+      <label class="profile-field">
+        <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+        <span>User ID</span>
+        <input id="profileIdInput" type="text" placeholder="e.g. CF-001" />
+      </label>
+      <label class="profile-field">
+        <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+        <span>Company role / position</span>
+        <input id="profileRoleInput" type="text" placeholder="e.g. UX designer, studio team" />
+      </label>
+      <div class="button-row">
+        <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+        <button class="button primary" id="saveProfileBtn">Save profile</button>
+        <button class="button secondary" id="cancelProfileBtn">Cancel</button>
+      </div>
+    </article>
+  <!-- Dense note: this markup section belongs to the Co-Flow Electron desktop prototype interface. -->
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <!-- Main renderer logic for all dashboard interactions. -->
+  <script type="module" src="/js/app.js"></script>
+</body>
+</html>
